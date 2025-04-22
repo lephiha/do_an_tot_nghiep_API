@@ -14,14 +14,21 @@ if ($conn->connect_error) {
 }
 $conn->set_charset(DB_ENCODING);
 
-// Truy vấn dữ liệu theo đúng model CallDoctor
+$pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
+
 $stmt = $conn->prepare("
-    SELECT id, email, phone, name, description, price, role, avatar, speciality_id
-    FROM tn_doctors
-    WHERE active = 1
+    SELECT 
+        d.id, d.email, d.phone, d.name, d.description, d.price, d.role, d.avatar,
+        s.name AS speciality_name
+    FROM tn_doctors d
+    LEFT JOIN tn_specialities s ON d.speciality_id = s.id
+    WHERE d.active = 1 
 ");
+
+
 $stmt->execute();
-$stmt->bind_result($id, $email, $phone, $name, $description, $price, $role, $avatar, $speciality_id);
+$stmt->bind_result($id, $email, $phone, $name, $description, $price, $role, $avatar, $speciality_name);
+
 
 // Mảng kết quả
 $doctor_array = array();
@@ -35,8 +42,9 @@ while ($stmt->fetch()) {
         "price" => $price,
         "role" => $role,
         "avatar" => "http://192.168.56.1:8080/Do_an_tot_nghiep_lph/api/assets/uploads/" . $avatar,
-        "speciality_id" => $speciality_id
+        "speciality_name" => $speciality_name
     );
+    
     $doctor_array[] = $temp;
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 13, 2025 lúc 07:36 AM
+-- Thời gian đã tạo: Th4 22, 2025 lúc 05:32 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -238,6 +238,7 @@ CREATE TABLE `tn_appointments` (
   `id` int(11) NOT NULL,
   `doctor_id` int(11) DEFAULT NULL,
   `patient_id` int(11) DEFAULT NULL,
+  `booking_id` int(11) NOT NULL,
   `patient_name` varchar(50) DEFAULT NULL,
   `patient_birthday` varchar(10) DEFAULT NULL,
   `patient_reason` varchar(255) DEFAULT NULL,
@@ -250,6 +251,13 @@ CREATE TABLE `tn_appointments` (
   `create_at` datetime DEFAULT NULL,
   `update_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tn_appointments`
+--
+
+INSERT INTO `tn_appointments` (`id`, `doctor_id`, `patient_id`, `booking_id`, `patient_name`, `patient_birthday`, `patient_reason`, `patient_phone`, `numerical_order`, `position`, `appointment_time`, `date`, `status`, `create_at`, `update_at`) VALUES
+(1, 23, 3, 14, 'Lê Hoàng Nam', '1998-01-09', 'xem có phải ae k', '0392405600', 1, 1, '2025-04-22 10:45', '2025-04-22', 'processing', '2025-04-22 10:31:28', '2025-04-22 10:31:28');
 
 -- --------------------------------------------------------
 
@@ -300,7 +308,12 @@ CREATE TABLE `tn_booking` (
 
 INSERT INTO `tn_booking` (`id`, `service_id`, `patient_id`, `booking_name`, `booking_phone`, `name`, `gender`, `birthday`, `address`, `reason`, `appointment_date`, `appointment_hour`, `status`, `create_at`, `update_at`, `doctor_id`, `appointment_time`) VALUES
 (5, 1, 3, 'Lê Phi Hà', '0392405600', 'Lee Phi Hà', 1, '2004-03-02', 'hanoi', 'dau lung', '2025-04-03', NULL, 'cancelled', '2025-04-02 21:47:45', '2025-04-02 21:48:21', 0, '9:00'),
-(6, 11, 8, 'Lê Phi Hà', '0392405600', 'Lee Phi Hà', 1, '2002-08-08', 'Ha noi', 'can thi', '2025-04-03', NULL, 'processing', '2025-04-02 21:53:13', '2025-04-02 21:53:13', 0, '9:00');
+(6, 11, 8, 'Lê Phi Hà', '0392405600', 'Lee Phi Hà', 1, '2002-08-08', 'Ha noi', 'can thi', '2025-04-03', NULL, 'processing', '2025-04-02 21:53:13', '2025-04-02 21:53:13', 0, '9:00'),
+(10, 22, 3, 'Lê Phi Hà', '0252475600', 'Hữu Hùng', 1, '2025-03-20', 'Nam Định', 'đau họng', '2025-04-20', NULL, 'verified', '2025-04-20 11:34:43', '2025-04-20 11:34:43', 0, '11:45'),
+(11, 1, 8, 'Lê Phi Hà', '0392405600', 'Đinh Hà Uyên Thư', 0, '2006-05-09', 'Hà Nội', 'khó chịu trong người', '2025-04-20', NULL, 'verified', '2025-04-20 11:39:15', '2025-04-20 11:39:15', 5, '11:51'),
+(12, 10, 3, 'Lê Phi Hà', '0248851341', 'Lee Min Ho', 1, '2002-09-10', 'Seul, Korea', 'đau răng', '2025-04-22', NULL, 'verified', '2025-04-21 23:27:40', '2025-04-21 23:27:40', 0, '10:05'),
+(13, 1, 3, 'Lê Phi Hà', '0335147896', 'Lee Min Ho', 1, '2002-09-10', 'Seul, Korea', 'khó chịu trong người', '2025-04-22', NULL, 'verified', '2025-04-22 10:23:24', '2025-04-22 10:23:24', 23, '10:45'),
+(14, 23, 3, 'Lê Phi Hà', '0392405600', 'Lê Hoàng Nam', 1, '1998-01-09', 'Thanh Hoá', 'xem có phải ae k', '2025-04-22', NULL, 'verified', '2025-04-22 10:29:21', '2025-04-22 10:29:21', 0, '10:45');
 
 -- --------------------------------------------------------
 
@@ -313,6 +326,15 @@ CREATE TABLE `tn_booking_photo` (
   `url` varchar(255) DEFAULT NULL,
   `booking_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tn_booking_photo`
+--
+
+INSERT INTO `tn_booking_photo` (`id`, `url`, `booking_id`) VALUES
+(1, 'booking_10_1745123694.jpg', 10),
+(2, 'booking_11_1745123973.jpg', 11),
+(3, 'booking_13_1745292227.jpg', 13);
 
 -- --------------------------------------------------------
 
@@ -425,7 +447,12 @@ INSERT INTO `tn_notifications` (`id`, `message`, `record_id`, `record_type`, `pa
 (10, 'Lịch hẹn khám Xét nghiệm PCR COVID-19 lúc 9:00 ngày 2025-04-03 đã được hủy bỏ thành công!', 7, 'booking', 8, 0, '2025-04-02 22:28:45', '2025-04-02 22:28:45'),
 (11, 'Chúc mừng bạn! Lịch hẹn khám Khám sức khỏe tổng quát lúc 9:00 ngày 2025-04-03 đã được tạo thành công!', 8, 'booking', 8, 0, '2025-04-02 22:30:32', '2025-04-02 22:30:32'),
 (12, 'Chúc mừng bạn! Lịch hẹn khám Nha khoa lúc 9:00 ngày 2025-04-04 đã được tạo thành công!', 9, 'booking', 8, 1, '2025-04-03 20:48:33', '2025-04-03 20:49:20'),
-(13, 'Lịch hẹn khám Nha khoa lúc 9:00 ngày 2025-04-04 đã được hủy bỏ thành công!', 9, 'booking', 8, 0, '2025-04-03 20:49:49', '2025-04-03 20:49:49');
+(13, 'Lịch hẹn khám Nha khoa lúc 9:00 ngày 2025-04-04 đã được hủy bỏ thành công!', 9, 'booking', 8, 0, '2025-04-03 20:49:49', '2025-04-03 20:49:49'),
+(14, 'Chúc mừng bạn! Lịch hẹn khám Xét nghiệm PCR COVID-19 lúc 11:45 ngày 2025-04-20 đã được tạo thành công!', 10, 'booking', 3, 0, '2025-04-20 11:34:43', '2025-04-20 11:34:43'),
+(15, 'Chúc mừng bạn! Lịch hẹn khám Khám sức khỏe tổng quát lúc 11:51 ngày 2025-04-20 đã được tạo thành công!', 11, 'booking', 8, 1, '2025-04-20 11:39:15', '2025-04-20 11:43:59'),
+(16, 'Chúc mừng bạn! Lịch hẹn khám Nha khoa lúc 10:05 ngày 2025-04-22 đã được tạo thành công!', 12, 'booking', 3, 0, '2025-04-21 23:27:40', '2025-04-21 23:27:40'),
+(17, 'Chúc mừng bạn! Lịch hẹn khám Khám sức khỏe tổng quát lúc 10:45 ngày 2025-04-22 đã được tạo thành công!', 13, 'booking', 3, 0, '2025-04-22 10:23:24', '2025-04-22 10:23:24'),
+(18, 'Chúc mừng bạn! Lịch hẹn khám Xét nghiệm ADN lúc 10:45 ngày 2025-04-22 đã được tạo thành công!', 14, 'booking', 3, 0, '2025-04-22 10:29:21', '2025-04-22 10:29:21');
 
 -- --------------------------------------------------------
 
@@ -463,7 +490,7 @@ INSERT INTO `tn_patients` (`id`, `email`, `phone`, `password`, `name`, `gender`,
 --
 
 CREATE TABLE `tn_rooms` (
-  `id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL,
   `name` varchar(15) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -472,13 +499,13 @@ CREATE TABLE `tn_rooms` (
 -- Đang đổ dữ liệu cho bảng `tn_rooms`
 --
 
-INSERT INTO `tn_rooms` (`id`, `name`, `location`) VALUES
-(0, 'Phòng 103', 'Khu B, Tầng 1'),
+INSERT INTO `tn_rooms` (`Id`, `name`, `location`) VALUES
 (1, 'Phòng 303', 'Khu B, Tầng 3'),
 (2, 'Phòng 104', 'Khu A, tầng 1'),
 (3, 'Phòng 102', 'Khu A, tầng 1'),
 (4, 'Phòng 246', 'Khu C, Tầng 4'),
-(5, 'Phòng 103', 'Khu A, tầng 1');
+(5, 'Phòng 103', 'Khu A, tầng 1'),
+(123456, 'Phòng 103', 'Khu B, Tầng 1');
 
 -- --------------------------------------------------------
 
@@ -708,7 +735,7 @@ ALTER TABLE `tn_patients`
 -- Chỉ mục cho bảng `tn_rooms`
 --
 ALTER TABLE `tn_rooms`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Chỉ mục cho bảng `tn_services`
@@ -803,7 +830,7 @@ ALTER TABLE `np_users`
 -- AUTO_INCREMENT cho bảng `tn_appointments`
 --
 ALTER TABLE `tn_appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `tn_appointment_records`
@@ -815,13 +842,13 @@ ALTER TABLE `tn_appointment_records`
 -- AUTO_INCREMENT cho bảng `tn_booking`
 --
 ALTER TABLE `tn_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `tn_booking_photo`
 --
 ALTER TABLE `tn_booking_photo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `tn_doctors`
@@ -845,7 +872,31 @@ ALTER TABLE `tn_drugs`
 -- AUTO_INCREMENT cho bảng `tn_notifications`
 --
 ALTER TABLE `tn_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT cho bảng `tn_rooms`
+--
+ALTER TABLE `tn_rooms`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123457;
+
+--
+-- AUTO_INCREMENT cho bảng `tn_services`
+--
+ALTER TABLE `tn_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT cho bảng `tn_specialities`
+--
+ALTER TABLE `tn_specialities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT cho bảng `tn_treatments`
+--
+ALTER TABLE `tn_treatments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
