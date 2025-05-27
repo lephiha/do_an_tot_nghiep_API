@@ -19,16 +19,16 @@ $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
 $stmt = $conn->prepare("
     SELECT 
         d.id, d.email, d.phone, d.name, d.description, d.price, d.role, d.avatar,
+        d.paid, -- Thêm cột paid vào truy vấn
+        d.token, -- Thêm cột token vào truy vấn
         s.name AS speciality_name
     FROM tn_doctors d
     LEFT JOIN tn_specialities s ON d.speciality_id = s.id
     WHERE d.active = 1 
 ");
 
-
 $stmt->execute();
-$stmt->bind_result($id, $email, $phone, $name, $description, $price, $role, $avatar, $speciality_name);
-
+$stmt->bind_result($id, $email, $phone, $name, $description, $price, $role, $avatar, $paid, $token, $speciality_name);
 
 // Mảng kết quả
 $doctor_array = array();
@@ -42,7 +42,9 @@ while ($stmt->fetch()) {
         "price" => $price,
         "role" => $role,
         "avatar" => "http://192.168.56.1:8080/Do_an_tot_nghiep_lph/api/assets/uploads/" . $avatar,
-        "speciality_name" => $speciality_name
+        "speciality_name" => $speciality_name,
+        "paid" => $paid,  
+        "token" => $token  
     );
     
     $doctor_array[] = $temp;

@@ -108,36 +108,39 @@ class App
                 }
             }
 
-            if ($ipinfo["latitude"] && $ipinfo["longitude"]) {
+            if (!empty($ipinfo["latitude"]) && !empty($ipinfo["longitude"])) {
                 $Settings = Controller::model("GeneralData", "settings");
-                $username = $Settings->get("data.geonamesorg_username");
-
-                if ($username) {
+            
+                // Kiểm tra đối tượng $Settings có tồn tại và có method get()
+                if ($Settings && method_exists($Settings, 'get')) {
+                    $username = $Settings->get("data.geonamesorg_username");
+                } else {
+                    $username = null;
+                }
+            
+                if (!empty($username)) {
                     // Get timezone
-                    if (!empty($ipinfo["latitude"]) && !empty($ipinfo["longitude"])) {
-                        $res = @json_decode(file_get_contents("http://api.geonames.org/timezoneJSON?lat=".$ipinfo["latitude"]."&lng=".$ipinfo["longitude"]."&username=".$username));
-
-                        if (isset($res->timezoneId)) {
-                            $ipinfo["timezone"] = $res->timezoneId;
-                        }
+                    $res = @json_decode(file_get_contents("http://api.geonames.org/timezoneJSON?lat=".$ipinfo["latitude"]."&lng=".$ipinfo["longitude"]."&username=".$username));
+            
+                    if (isset($res->timezoneId)) {
+                        $ipinfo["timezone"] = $res->timezoneId;
                     }
-
-
+            
                     // Get neighbours
                     if (!empty($ipinfo["countryCode"])) {
                         $res = @json_decode(file_get_contents("http://api.geonames.org/neighboursJSON?country=".$ipinfo["countryCode"]."&username=".$username));
-
+            
                         if (!empty($res->geonames)) {
                             foreach ($res->geonames as $r) {
                                 $ipinfo["neighbours"][] = $r->countryCode;
                             }
                         }
                     }
-
-                    // Get country
+            
+                    // Get country languages
                     if (!empty($ipinfo["countryCode"])) {
                         $res = @json_decode(file_get_contents("http://api.geonames.org/countryInfoJSON?country=".$ipinfo["countryCode"]."&username=".$username));
-
+            
                         if (!empty($res->geonames[0]->languages)) {
                             $langs = explode(",", $res->geonames[0]->languages);
                             foreach ($langs as $l) {
@@ -147,6 +150,7 @@ class App
                     }
                 }
             }
+            
 
             $_SESSION[$ip] = $ipinfo;
         }

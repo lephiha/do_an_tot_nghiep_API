@@ -139,6 +139,7 @@
             $yearBirthday = (int)substr($birthday, 6);
             $monthBirthday = (int)substr($birthday,3,5);
             $dayBirthday = (int)substr($birthday,0,2);
+            
 
 
             $yearToday = (int)date("Y");

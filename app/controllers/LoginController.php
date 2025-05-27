@@ -154,7 +154,7 @@ class LoginController extends Controller
                     ->where(TABLE_PREFIX.TABLE_PATIENTS.".phone" , "=" , $phone);
         $result = $query->get();
 
-        /*Step 3 - Case 1 - if this patient does not exist in the database, we will create a new account for this patient*/
+            /*Step 3 - Case 1 - if this patient does not exist in the database, we will create a new account for this patient*/
         if( count($result) == 0 )
         {
             $Patient = Controller::model("Patient");
@@ -170,7 +170,7 @@ class LoginController extends Controller
                 ->set("update_at", date("Y-m-d H:i:s"))
                 ->save();
 
-            $msg = "Welcome to LeeHaMedical CORPORATION, ".$Patient->get("name")." !";
+            $msg = "Welcome to UMBRELLA CORPORATION, ".$Patient->get("name")." !";
             $data = array(
                 "id"    => (int)$Patient->get("id"),
                 "email" => $Patient->get("email"),

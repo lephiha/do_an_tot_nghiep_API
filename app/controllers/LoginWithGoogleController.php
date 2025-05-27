@@ -74,6 +74,7 @@
                         ->set("avatar", "default_avatar.jpg")
                         ->set("create_at", $create_at)
                         ->set("update_at", $update_at)
+                        ->set("token", $token)
                         ->save();
                 $msg = "Patient account has been CREATE successfully";
             }
@@ -95,7 +96,8 @@
                 "address" => $Patient->get("address"),
                 "avatar" => $Patient->get("avatar"),
                 "create_at" => $Patient->get("create_at"),
-                "update_at" => $Patient->get("update_at")
+                "update_at" => $Patient->get("update_at"),
+                "token" => $Patient->get("token")
             );
   
             $payload = $data;
