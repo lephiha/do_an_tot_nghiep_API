@@ -204,3 +204,17 @@ Stack trace:
 #9 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\index.php(77): App->process()
 #10 {main}
   thrown in C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\viocon\src\Viocon\Container.php on line 138
+[03-Jun-2025 03:22:27 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it in C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\viocon\src\Viocon\Container.php:138
+Stack trace:
+#0 [internal function]: PDO->__construct('mysql:dbname=do...', 'root', '', Array)
+#1 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\viocon\src\Viocon\Container.php(138): ReflectionClass->newInstanceArgs(Array)
+#2 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\viocon\src\Viocon\Container.php(110): Viocon\Container->instanciate('\\PDO', Array)
+#3 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\pixie\src\Pixie\ConnectionAdapters\Mysql.php(28): Viocon\Container->build('\\PDO', Array)
+#4 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\pixie\src\Pixie\ConnectionAdapters\BaseAdapter.php(28): Pixie\ConnectionAdapters\Mysql->doConnect(Array)
+#5 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\pixie\src\Pixie\Connection.php(93): Pixie\ConnectionAdapters\BaseAdapter->connect(Array)
+#6 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\pixie\src\Pixie\Connection.php(51): Pixie\Connection->connect()
+#7 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\core\App.php(180): Pixie\Connection->__construct('mysql', Array, 'DB')
+#8 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\core\App.php(579): App->db()
+#9 C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\index.php(77): App->process()
+#10 {main}
+  thrown in C:\xampp\htdocs\Do_an_tot_nghiep_lph\api\app\vendor\usmanhalalit\viocon\src\Viocon\Container.php on line 138
